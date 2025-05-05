@@ -3,7 +3,7 @@ name: API Pipeline
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 8 * * *'  # daily at 8am UTC
 
 jobs:
   run-notebook:
@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install papermill ipykernel jupyter
+          pip install papermill ipykernel jupyter pandas requests
 
       - name: Register kernel
         run: |
@@ -27,4 +27,5 @@ jobs:
       - name: Run API Notebook
         run: |
           papermill notebooks/iOS_API_Extract_Load_Raw.ipynb notebooks/output_api.ipynb
+
 
