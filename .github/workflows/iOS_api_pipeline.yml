@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install papermill ipykernel jupyter pandas requests
+          pip install papermill ipykernel jupyter pandas requests sqlalchemy psycopg2-binary
 
       - name: Register kernel
         run: |
@@ -27,5 +27,6 @@ jobs:
       - name: Run API Notebook
         run: |
           papermill notebooks/iOS_API_Extract_Load_Raw.ipynb notebooks/output_api.ipynb
+
 
 
