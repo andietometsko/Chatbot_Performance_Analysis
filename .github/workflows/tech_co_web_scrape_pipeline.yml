@@ -1,0 +1,34 @@
+name: Web Scrape Pipeline
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 8 * * *'  # daily at 8am UTC
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the code from the repo
+      - uses: actions/checkout@v2
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      # Step 3: Install necessary Python packages
+      - name: Install dependencies
+        run: |
+          pip install papermill ipykernel jupyter pandas requests sqlalchemy psycopg2-binary
+
+      # Step 4: Register Jupyter kernel for Papermill
+      - name: Register kernel
+        run: |
+          python -m ipykernel install --user --name python3
+
+      # Step 5: Run the Web Scrape Notebook using Papermill
+      - name: Run Web Scrape Notebook
+        run: |
+          papermill notebooks/tech_co_Web_Scrape_Extract_Load_Raw.ipynb notebooks/output_web_scrape.ipynb
